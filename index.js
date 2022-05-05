@@ -3,10 +3,15 @@ import { IfcViewerAPI } from 'web-ifc-viewer';
 
 const container = document.getElementById('viewer-container');
 const viewer = new IfcViewerAPI({ container, backgroundColor: new Color(0xffffff) });
+const input = document.getElementById("file-input");
+let dimensionsActive = false;
+
+window.webIfcAPI = viewer;
+viewer.IFC.applyWebIfcConfig({ COORDINATE_TO_ORIGIN: true, USE_FAST_BOOLS: true });
 viewer.axes.setAxes();
 viewer.grid.setGrid();
+viewer.clipper.active = true;
 
-const input = document.getElementById("file-input");
 
 window.onmousemove = () => viewer.IFC.selector.prePickIfcItem();
 // Select items and log properties
@@ -15,7 +20,6 @@ window.ondblclick = async () => {
     if (item.modelID === undefined || item.id === undefined) return;
     console.log(await viewer.IFC.getProperties(item.modelID, item.id, true));
 }
-viewer.clipper.active = true;
 
 input.addEventListener("change",
 
@@ -45,6 +49,22 @@ window.onkeydown = (event) => {
         viewer.clipper.deletePlane();
     }
     else if (event.code === 'Escape') {
+        viewer.IFC.selector.unpickIfcItems();
+    }
+    if (event.code === 'KeyE') {
+        // reference: https://ifcjs.github.io/info/blog/Build%20a%20CDE%20in%2030%20minutes/
+        dimensionsActive = !dimensionsActive;
+        viewer.dimensions.active = dimensionsActive;
+        viewer.dimensions.previewActive = dimensionsActive;
+        viewer.IFC.selector.unPrepickIfcItems();
+        window.onmousemove = dimensionsActive ? null : () => viewer.IFC.selector.prePickIfcItem();
+    }
+    if (event.code === 'KeyD') {
+        viewer.dimensions.create();
+    }
+    if (event.code === 'Delete') {
+        viewer.dimensions.deleteAll();
+        viewer.clipper.deletePlane();
         viewer.IFC.selector.unpickIfcItems();
     }
 }
