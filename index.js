@@ -39,14 +39,20 @@ async function loadIfc(url) {
     viewer.shadowDropper.renderShadow(model.modelID);
 }
 
+window.onclick = () => {
+    // const item = await viewer.IFC.selector.prePickIfcItem(true);
+    if (dimensionsActive) {
+        // if (item.modelID !== undefined || item.id !== undefined) {
+        viewer.dimensions.create();
+        // }
+    }
+}
+
 loadIfc('models/01.ifc');
 
-window.onkeydown = (event) => {
+const handleKeyDown = (event) => {
     if (event.code === 'KeyP') {
         viewer.clipper.createPlane();
-    }
-    else if (event.code === 'KeyO') {
-        viewer.clipper.deletePlane();
     }
     else if (event.code === 'Escape') {
         viewer.IFC.selector.unpickIfcItems();
@@ -58,9 +64,7 @@ window.onkeydown = (event) => {
         viewer.dimensions.previewActive = dimensionsActive;
         viewer.IFC.selector.unPrepickIfcItems();
         window.onmousemove = dimensionsActive ? null : () => viewer.IFC.selector.prePickIfcItem();
-    }
-    if (event.code === 'KeyD') {
-        viewer.dimensions.create();
+        document.body.style.cursor = dimensionsActive ? "crosshair" : "auto";
     }
     if (event.code === 'Delete') {
         viewer.dimensions.deleteAll();
@@ -68,3 +72,5 @@ window.onkeydown = (event) => {
         viewer.IFC.selector.unpickIfcItems();
     }
 }
+
+window.onkeydown = handleKeyDown;
