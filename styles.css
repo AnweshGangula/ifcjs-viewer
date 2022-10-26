@@ -28,3 +28,11 @@ body {
     border: 1px solid white;
     border-radius: 5px;
 }
+
+#dimNotify{
+    text-align: center;
+}
+
+.showNotify {
+	display: none;
+}

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "rollup -c ./rollup.config.js",
+    "copy-wasm": "cpy ../node_modules/web-ifc/web-ifc.wasm .",
     "watch": "rollup -w -c ./rollup.config.js"
   },
   "repository": {
@@ -19,7 +20,7 @@
   },
   "homepage": "https://github.com/AnweshGangula/ifcjs-viewer-101#readme",
   "dependencies": {
-    "web-ifc-viewer": "^1.0.177"
+    "web-ifc-viewer": "^1.0.184"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^13.3.0",
