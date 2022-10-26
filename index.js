@@ -58,6 +58,7 @@ const handleKeyDown = (event) => {
         viewer.IFC.selector.unpickIfcItems();
     }
     if (event.code === 'KeyE') {
+        document.getElementById("dimNotify").classList.toggle("showNotify");
         // reference: https://ifcjs.github.io/info/blog/Build%20a%20CDE%20in%2030%20minutes/
         dimensionsActive = !dimensionsActive;
         viewer.dimensions.active = dimensionsActive;
@@ -68,7 +69,7 @@ const handleKeyDown = (event) => {
     }
     if (event.code === 'Delete') {
         viewer.dimensions.deleteAll();
-        viewer.clipper.deletePlane();
+        viewer.clipper.deleteAllPlanes();
         viewer.IFC.selector.unpickIfcItems();
     }
 }
